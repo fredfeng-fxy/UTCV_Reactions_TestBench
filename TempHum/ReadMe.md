@@ -3,9 +3,11 @@ The code contains the following functions:
 <Comment here to add new functions>
 
 The sensor type is DHT11 Temperature-Humidity Sensor Module, which can be bought with this link: https://www.robotshop.com/ca/en/dht11-temperature-humidity-sensor-module.html
+
 Tutorial for using this sensor can be found with this link: https://www.circuitbasics.com/how-to-set-up-the-dht11-humidity-sensor-on-an-arduino/
 
 Sensor Specifications
+
 Temperature
   Resolution : 1°C
   Accuracy : ±2℃
