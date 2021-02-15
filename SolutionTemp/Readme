@@ -1,0 +1,21 @@
+This folder contains the code for the Solution Temperature Sensor.
+The code contains the following functions:
+<Comment here to add new functions>
+
+The sensor type is DS18B20 Waterproof Digital Temperature Sensor Kit, which can be bought with this link: https://www.robotshop.com/ca/en/ds18b20-waterproof-digital-temperature-sensor-kit.html
+
+Tutorial for using this sensor can be found with this link: https://lastminuteengineers.com/ds18b20-arduino-tutorial/
+Tech Specs can be found with this link: https://datasheets.maximintegrated.com/en/ds/DS18B20.pdf
+
+Sensor Specifications:
+  Unique 1-Wire® Interface Requires Only One Port Pin for Communication
+  Reduce Component Count with Integrated Temperature Sensor and EEPROM
+  Measures Temperatures from -55°C to +125°C (-67°F to +257°F)
+    ±0.5°C Accuracy from -10°C to +85°C
+    Programmable Resolution from 9 Bits to 12 Bits
+    No External Components Required
+  Parasitic Power Mode Requires Only 2 Pins for Operation (DQ and GND)
+  Simplifies Distributed Temperature-Sensing Applications with Multidrop Capability
+    Each Device Has a Unique 64-Bit Serial Code Stored in On-Board ROM
+  Flexible User-Definable Nonvolatile (NV) Alarm Settings with Alarm Search Command Identifies Devices with Temperatures Outside Programmed Limits
+  Available in 8-Pin SO (150 mils), 8-Pin µSOP, and 3-Pin TO-92 Packages
