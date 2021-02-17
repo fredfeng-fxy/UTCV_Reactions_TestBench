@@ -19,3 +19,4 @@ Operating voltage : 3.3V ~ 5.5 V
 Recommended storage condition
   Temperature : 10°C ~40°C
   Humidity : 60%RH or below
+123
