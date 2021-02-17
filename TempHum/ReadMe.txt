@@ -19,4 +19,23 @@ Operating voltage : 3.3V ~ 5.5 V
 Recommended storage condition
   Temperature : 10°C ~40°C
   Humidity : 60%RH or below
-123
+
+Code: 
+#include <dht.h>
+
+dht DHT;
+
+#define DHT11_PIN 7
+
+void setup(){
+  Serial.begin(9600);
+}
+
+void loop(){
+  int chk = DHT.read11(DHT11_PIN);
+  Serial.print("Temperature = ");
+  Serial.println(DHT.temperature);
+  Serial.print("Humidity = ");
+  Serial.println(DHT.humidity);
+  delay(1200); // Has to > 1000ms
+}
