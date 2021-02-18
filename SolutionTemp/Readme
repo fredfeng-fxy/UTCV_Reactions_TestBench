@@ -6,6 +6,7 @@ The sensor type is DS18B20 Waterproof Digital Temperature Sensor Kit, which can 
 
 Tutorial for using this sensor can be found with this link: https://lastminuteengineers.com/ds18b20-arduino-tutorial/
 Tech Specs can be found with this link: https://datasheets.maximintegrated.com/en/ds/DS18B20.pdf
+The sensor kit includes a sensor adapter, which functions as a resister between the SCB and the senser. Details can be found with the link: https://wiki.dfrobot.com/Terminal_sensor_adapter_V2_SKU_DFR0055
 
 Sensor Specifications:
   Unique 1-Wire® Interface Requires Only One Port Pin for Communication
