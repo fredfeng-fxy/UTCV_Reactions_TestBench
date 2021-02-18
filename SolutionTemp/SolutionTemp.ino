@@ -17,7 +17,7 @@ DallasTemperature sensors(&oneWire);
 void setup(void)
 {
   sensors.begin();  // Start up the library, the default resolution of the senser is 12-bits, corresponding to a increment of 0.0625ºC
-  // sensors.setResolution(9); // If want to change the resolution, uncommnet this line of code; the resolution can be 9, 10, 11, or 12, corresponding to increments of 0.5°C, 0.25°C, 0.125°C, and 0.0625°C, respectively
+  // sensors.setResolution(12); // If want to change the resolution, uncommnet this line of code; the resolution can be 9, 10, 11, or 12, corresponding to increments of 0.5°C, 0.25°C, 0.125°C, and 0.0625°C, respectively
   Serial.begin(9600);
   
   sensors.requestTemperatures();  // Get the initial temperature when the system starts up
@@ -39,7 +39,7 @@ void loop(void)
   difference = abs(temperature_new - temperature); // Claculate temperature change between two consecutive meassurements
 
   //If the change is greater than 0.2, print out the new temperature, otherwise do nothing
-  if(difference > 0.2){
+  if(difference > 0.1){
     //print the temperature in Celsius
     Serial.print("Temperature: ");
     Serial.print(temperature_new);
