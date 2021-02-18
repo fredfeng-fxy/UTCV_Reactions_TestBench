@@ -1,12 +1,16 @@
 This folder contains the code for the Solution Temperature Sensor.
 The code contains the following functions:
-<Comment here to add new functions>
+* Get the temperature data from the senser and print the temperature if the temperature change between two consecutive meassurements is greater than 0.2ºC
 
 The sensor type is DS18B20 Waterproof Digital Temperature Sensor Kit, which can be bought with this link: https://www.robotshop.com/ca/en/ds18b20-waterproof-digital-temperature-sensor-kit.html
 
 Tutorial for using this sensor can be found with this link: https://lastminuteengineers.com/ds18b20-arduino-tutorial/
 Tech Specs can be found with this link: https://datasheets.maximintegrated.com/en/ds/DS18B20.pdf
 The sensor kit includes a sensor adapter, which functions as a resister between the SCB and the senser. Details can be found with the link: https://wiki.dfrobot.com/Terminal_sensor_adapter_V2_SKU_DFR0055
+
+Libraries used in the code:
+DallasTemperature (https://github.com/milesburton/Arduino-Temperature-Control-Library)
+OneWire (https://www.pjrc.com/teensy/td_libs_OneWire.html)
 
 Sensor Specifications:
   Unique 1-Wire® Interface Requires Only One Port Pin for Communication
