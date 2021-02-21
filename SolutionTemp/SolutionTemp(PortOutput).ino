@@ -24,6 +24,7 @@ void setup(void)
   temperature = sensors.getTempCByIndex(0); // Store the initial temperature as "Temperature"
   
   //print the initial temperature in Celsius
+  Serial.println("Sensor ready");
   Serial.print("Temperature: ");
   Serial.print(temperature);
   Serial.println(" ºC");
