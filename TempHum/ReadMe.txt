@@ -3,7 +3,7 @@ The code contains the following functions:
 <Comment here to add new functions>
 
 The sensor type is DHT11 Temperature-Humidity Sensor Module, which can be bought with this link: https://www.robotshop.com/ca/en/dht11-temperature-humidity-sensor-module.html
-
+The CSV export method can be found with this link: https://medium.com/@inegm/quick-start-to-simple-daq-system-using-plx-daq-excel-arduino-d2457773384b
 Tutorial for using this sensor can be found with this link: https://www.circuitbasics.com/how-to-set-up-the-dht11-humidity-sensor-on-an-arduino/
 
 Sensor Specifications
