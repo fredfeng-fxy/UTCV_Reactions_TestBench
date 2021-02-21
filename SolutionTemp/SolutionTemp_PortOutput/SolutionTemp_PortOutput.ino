@@ -39,7 +39,7 @@ void loop(void)
   
   difference = abs(temperature_new - temperature); // Claculate temperature change between two consecutive meassurements
 
-  //If the change is greater than 0.2, print out the new temperature, otherwise do nothing
+  //If the change is greater than 0.1, print out the new temperature, otherwise do nothing
   if(difference > 0.1){
     //print the temperature in Celsius
     Serial.print("Temperature: ");
