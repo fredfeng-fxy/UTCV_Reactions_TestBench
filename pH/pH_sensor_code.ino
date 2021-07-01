@@ -5,7 +5,7 @@ unsigned long int avgval;
 int buffer_arr[10],temp;
  
 float ph_act;
-
+//This is a test
  
 void setup() 
 {
