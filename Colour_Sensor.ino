@@ -5,7 +5,7 @@
 int redPin = 11;
 int greenPin = 10;
 int bluePin = 9;
-int threshold = 40;
+int threshold = 42;
 float startTime;
 float currentTime;
 float timeDiff;
@@ -53,24 +53,33 @@ if(Serial.available()){
     if (input == 114){
         Started = 1;
     }
+
+    if (input == 116){
+        currentTime = millis();
+        timeDiff = currentTime - startTime;
+        Serial.print("Time (Interrupt): "); Serial.print(timeDiff/1000, DEC);
+        Serial.println(" ");
+        Started = 0;
+    }
 }
 
 
 if(Started){
     tcs.getRawData(&r, &g, &b, &c);
-
+    currentTime = millis();
+    timeDiff = currentTime - startTime;
+ 
     if(c>threshold){
-        currentTime = millis();
-        timeDiff = currentTime - startTime;
         Serial.print("Measured Time: ");
         Serial.print(timeDiff/1000, DEC);
+        Serial.println(" ");
         Started = 0;
     }
     Serial.print("R:"); Serial.print(r, DEC); Serial.print(" ");
     Serial.print("G:"); Serial.print(g, DEC); Serial.print(" ");
     Serial.print("B:"); Serial.print(b, DEC); Serial.print(" ");
     Serial.print("C:"); Serial.print(c, DEC); Serial.print(" ");
-    //Serial.print("Time: "); Serial.print(timeDiff/1000, DEC);
+    Serial.print("Time: "); Serial.print(timeDiff/1000, DEC);
     Serial.println(" ");
 }
 
