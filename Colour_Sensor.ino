@@ -84,7 +84,9 @@ void loop(void) {
 uint16_t r, g, b, c, colorTemp, lux;
 if(Serial.available()){
     char input = Serial.read();
+  // Type letters into the serial monitor to access various options
     if (input == 115){
+        // s: Start the car, including the stirrer and the main motor
         startTime = millis();
         digitalWrite(car_motor_fwd, HIGH);
         digitalWrite(car_motor_rev, LOW);
@@ -94,11 +96,13 @@ if(Serial.available()){
         initValue = 1;
     }
     if (input == 114){
+        // r: Restart the car motor, keeping the current timer
         digitalWrite(car_motor_fwd, HIGH);
         digitalWrite(car_motor_rev, LOW);
         Started = 1;
     }
     if (input == 116){
+        // t: Stops the car and measurement, including timers
         currentTime = millis();
         timeDiff = currentTime - startTime;
         Serial.print("Time (Interrupt): "); Serial.print(timeDiff/1000, DEC);
