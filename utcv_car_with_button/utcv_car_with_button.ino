@@ -159,7 +159,7 @@ void loop() {
     startTime = millis();
     ledState = !ledState;
     digitalWrite(LED_PIN, ledState);
-    analogWrite(stirrer_speed, 80);
+    analogWrite(stirrer_speed, 90);
     delay(1500);
     analogWrite(car_motor_speed, 255);
 
