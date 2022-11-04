@@ -5,7 +5,7 @@
  *
  * Tutorial page: https://arduinogetstarted.com/tutorials/arduino-button-toggle-led
  */
-
+ 
 #include <ezButton.h>
 #include <Adafruit_TCS34725.h>
 #include <Wire.h>
@@ -41,14 +41,14 @@ const int LED_PIN    = 13; // the number of the LED pin
 int Started = 0;
 
 // Car Motor
-const int car_motor_speed = 6;
-const int car_motor_fwd = 7; 
-const int car_motor_rev = 8;
+const int car_motor_speed = 5;
+//const int car_motor_fwd = 7; 
+//const int car_motor_rev = 8;
 
 //stirrer
 const int stirrer_speed = 9;
-const int stirrer_fwd = 10;
-const int stirrer_rev = 11;
+//const int stirrer_fwd = 10;
+//const int stirrer_rev = 11;
 
 ezButton button(BUTTON_PIN);  // create ezButton object that attach to pin 7;
 
@@ -61,8 +61,9 @@ uint16_t r, g, b, c, colorTemp, lux;
     currentTime = millis();
     timeDiff = currentTime - startTime;
     if(timeDiff > 5000){
-        digitalWrite(stirrer_fwd, LOW);
-        digitalWrite(stirrer_rev, LOW);  
+        //digitalWrite(stirrer_fwd, LOW);
+        //digitalWrite(stirrer_rev, LOW);
+        analogWrite(stirrer_speed,0);
     }
     
 
@@ -91,11 +92,13 @@ uint16_t r, g, b, c, colorTemp, lux;
         }
     }else{
       if(first_diff > threshold){
-        // Car motor initialization
-        digitalWrite(car_motor_fwd, LOW);
-        digitalWrite(car_motor_rev, LOW);
-        digitalWrite(stirrer_fwd, LOW);
-        digitalWrite(stirrer_rev, LOW);
+        // Car motor stop
+        analogWrite(car_motor_speed,0);
+        analogWrite(stirrer_speed,0);
+        //digitalWrite(car_motor_fwd, LOW);
+        //digitalWrite(car_motor_rev, LOW);
+        //digitalWrite(stirrer_fwd, LOW);
+        //digitalWrite(stirrer_rev, LOW);
         Started = 0;
       }
     }
@@ -109,24 +112,24 @@ uint16_t r, g, b, c, colorTemp, lux;
 void setup() {
   // Car Motor Setup
     pinMode(car_motor_speed, OUTPUT);
-    pinMode(car_motor_fwd, OUTPUT);
-    pinMode(car_motor_rev, OUTPUT);
+    //pinMode(car_motor_fwd, OUTPUT);
+    //pinMode(car_motor_rev, OUTPUT);
 
     // Stirrer Setup
 
     pinMode(stirrer_speed, OUTPUT);
-    pinMode(stirrer_fwd, OUTPUT);
-    pinMode(stirrer_rev, OUTPUT);
+    //pinMode(stirrer_fwd, OUTPUT);
+    //pinMode(stirrer_rev, OUTPUT);
     
     // Car motor initialization
-    digitalWrite(car_motor_fwd, LOW);
-    digitalWrite(car_motor_rev, LOW);
-    analogWrite(car_motor_speed, 255);
+    //digitalWrite(car_motor_fwd, LOW);
+    //digitalWrite(car_motor_rev, LOW);
+    analogWrite(car_motor_speed, 0);
 
     // stirrer initialization
-    digitalWrite(stirrer_fwd, LOW);
-    digitalWrite(stirrer_rev, LOW);
-    analogWrite(stirrer_speed, 90);
+    //digitalWrite(stirrer_fwd, LOW);
+    //digitalWrite(stirrer_rev, LOW);
+    analogWrite(stirrer_speed, 0);
   
   Serial.begin(9600);         // initialize serial
   pinMode(LED_PIN, OUTPUT);   // set arduino pin to output mode
@@ -134,7 +137,9 @@ void setup() {
 }
 
 void loop() {
+  
   button.loop(); // MUST call the loop() function first
+  
   if(button.isPressed()) {
     Serial.println("The button is pressed");
 
@@ -148,12 +153,15 @@ void loop() {
     // toggle state of LED
     // control LED arccoding to the toggleed sate
   }
+  
+  //Started = 1;
   if(Started==1){
     startTime = millis();
     ledState = !ledState;
     digitalWrite(LED_PIN, ledState);
-    digitalWrite(stirrer_fwd, HIGH);
-    digitalWrite(car_motor_fwd, HIGH);
+    analogWrite(stirrer_speed, 80);
+    delay(1500);
+    analogWrite(car_motor_speed, 255);
 
     while(true){
       main_loop();
