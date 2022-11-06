@@ -35,7 +35,7 @@ const int car_motor_rev = 9;
 
 //Stirrer
 
-const int stirrer_speed = 3;
+const int stirrer_speed = 9;
 //const int stirrer_fwd = 6;
 //const int stirrer_rev = 7;
 
@@ -94,7 +94,7 @@ if(Serial.available()){
         digitalWrite(car_motor_rev, LOW);
         //digitalWrite(stirrer_fwd, HIGH);
         //digitalWrite(stirrer_rev, LOW);
-        digitalWrite(stirrer_speed, 150);
+        analogWrite(stirrer_speed, 80);
         Started = 1;
         initValue = 1;
     }
