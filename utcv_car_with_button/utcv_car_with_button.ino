@@ -50,6 +50,10 @@ const int stirrer_speed = 9;
 //const int stirrer_fwd = 10;
 //const int stirrer_rev = 11;
 
+
+const int stirrer_rot_speed = 70;
+const int stirrer_slow_speed = 10;
+
 ezButton button(BUTTON_PIN);  // create ezButton object that attach to pin 7;
 
 // variables will change:
@@ -62,8 +66,13 @@ uint16_t r, g, b, c, colorTemp, lux;
     timeDiff = currentTime - startTime;
     if(timeDiff > 5000){
         //digitalWrite(stirrer_fwd, LOW);
-        //digitalWrite(stirrer_rev, LOW);
-        analogWrite(stirrer_speed,0);
+        //digitalWrite(stirrer_rev, LOW);  
+        analogWrite(stirrer_speed, stirrer_slow_speed);
+    }
+    if(timeDiff > 30000){
+        digitalWrite(stirrer_fwd, LOW);
+        digitalWrite(stirrer_rev, LOW);  
+        analogWrite(stirrer_speed, 0);
     }
     
 
@@ -87,7 +96,7 @@ uint16_t r, g, b, c, colorTemp, lux;
 
     
     if(initValue){
-      if(timeDiff > 10000){
+      if(timeDiff > 35000){
         initValue=0;
         }
     }else{
@@ -160,7 +169,7 @@ void loop() {
     startTime = millis();
     ledState = !ledState;
     digitalWrite(LED_PIN, ledState);
-    analogWrite(stirrer_speed, 80);
+    analogWrite(stirrer_speed, stirrer_rot_speed);
     delay(1500);
     analogWrite(car_motor_speed, 255);
 
