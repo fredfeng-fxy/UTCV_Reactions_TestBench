@@ -54,7 +54,7 @@ const int stirrer_speed = 9;
 const int stirrer_rot_speed = 70;
 const int stirrer_slow_speed = 10;
 
-ezButton button(BUTTON_PIN);  // create ezButton object that attach to pin 7;
+ezButton button(BUTTON_PIN);  // create ezButton object that attach to pin 12;
 
 // variables will change:
 int ledState = HIGH;   // the current state of LED
@@ -70,8 +70,8 @@ uint16_t r, g, b, c, colorTemp, lux;
         analogWrite(stirrer_speed, stirrer_slow_speed);
     }
     if(timeDiff > 30000){
-        digitalWrite(stirrer_fwd, LOW);
-        digitalWrite(stirrer_rev, LOW);  
+        //digitalWrite(stirrer_fwd, LOW);
+        //digitalWrite(stirrer_rev, LOW);
         analogWrite(stirrer_speed, 0);
     }
     
