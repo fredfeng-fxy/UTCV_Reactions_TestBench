@@ -53,7 +53,7 @@ const int stirrer_speed = 9;
 ezButton button(BUTTON_PIN);  // create ezButton object that attach to pin 7;
 
 // variables will change:
-int ledState = LOW;   // the current state of LED
+int ledState = HIGH;   // the current state of LED
 
 void main_loop() {
 uint16_t r, g, b, c, colorTemp, lux;
@@ -133,6 +133,7 @@ void setup() {
   
   Serial.begin(9600);         // initialize serial
   pinMode(LED_PIN, OUTPUT);   // set arduino pin to output mode
+  digitalWrite(LED_PIN,ledState);
   button.setDebounceTime(50); // set debounce time to 50 milliseconds
 }
 
