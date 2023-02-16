@@ -46,7 +46,7 @@ const int car_motor_speed = 5;
 //const int car_motor_rev = 8;
 
 //stirrer
-const int stirrer_speed = 9;
+const int stirrer_speed = 10;
 //const int stirrer_fwd = 10;
 //const int stirrer_rev = 11;
 
@@ -70,8 +70,8 @@ uint16_t r, g, b, c, colorTemp, lux;
         analogWrite(stirrer_speed, stirrer_slow_speed);
     }
     if(timeDiff > 30000){
-        digitalWrite(stirrer_fwd, LOW);
-        digitalWrite(stirrer_rev, LOW);  
+        //digitalWrite(stirrer_fwd, LOW);
+        //digitalWrite(stirrer_rev, LOW);  
         analogWrite(stirrer_speed, 0);
     }
     
