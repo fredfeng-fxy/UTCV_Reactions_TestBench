@@ -9,9 +9,11 @@
 const float threshold = 4;
 const int min_time = 20000;
 
-const int max_angle = 145;
-const int min_angle = 75;
+const int max_angle = 113;
+const int min_angle = 10;
+const int safe_angle = 25;
 const int servo_delay = 40;
+const int servo_interval = 3;
 
 //stirrer speeds
 const int stirrer_rot_speed = 255;
@@ -55,6 +57,8 @@ const int stirrer_motor = 10; // the pin number of the stirrer motor's pwm contr
 
 ezButton button(BUTTON_PIN);  // create ezButton object that attach to pin BUTTON_PIN;
 Servo myservo; //servo motor
+
+void(* resetFunc) (void) = 0; //declare reset function @ address 0
 
 //colour sensing loop
 void main_loop() {
@@ -115,8 +119,10 @@ uint16_t r, g, b, c, colorTemp, lux;
         //digitalWrite(stirrer_fwd, LOW);
         //digitalWrite(stirrer_rev, LOW);
         Started = 0;
-        myservo.write(160);
+        myservo.write(max_angle);
+        resetFunc();
         while(true);
+        
       }
     }
     prev_tf[read_idx] = c;
@@ -126,6 +132,7 @@ uint16_t r, g, b, c, colorTemp, lux;
     }
     
 }
+
 
 //setup
 void setup() {
@@ -143,7 +150,7 @@ void setup() {
 
   //attach servo
   myservo.attach(SERVO_PIN);
-  myservo.write(160);
+  myservo.write(max_angle);
   
   Serial.begin(9600);         // initialize serial (only needed for if connected to computer
 
@@ -201,11 +208,13 @@ void loop() {
     digitalWrite(LED_PIN, LOW);
 
     //auto inject
-    for (int i = max_angle;i>min_angle+1; i = i-2){
+    for (int i = max_angle;i>min_angle+servo_interval; i = i-servo_interval){
       myservo.write(i);
       delay(servo_delay);
     }
-
+    myservo.write(min_angle);
+    delay(servo_delay);
+    myservo.write(safe_angle);
     //start stirrer and car
     analogWrite(stirrer_motor, stirrer_rot_speed);
     analogWrite(car_motor, 255);
