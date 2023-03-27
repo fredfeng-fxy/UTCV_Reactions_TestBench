@@ -135,11 +135,6 @@ if(Started){
         //digitalWrite(stirrer_rev, LOW);  
         analogWrite(stirrer_speed, stirrer_slow_speed);
     }
-    if(timeDiff > 30000){
-        //digitalWrite(stirrer_fwd, LOW);
-        //digitalWrite(stirrer_rev, LOW);  
-        analogWrite(stirrer_speed, 0);
-    }
 
     cur_tf[read_idx] = c;
     cur_sum = 0;
@@ -158,7 +153,7 @@ if(Started){
     
     first_diff = cur_avg - prev_avg;
     if(initValue){
-      if(timeDiff > 35000){
+      if(timeDiff > 15000){
         initValue=0;
         }
     }else{
