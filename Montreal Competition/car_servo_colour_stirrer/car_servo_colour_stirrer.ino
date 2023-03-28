@@ -6,8 +6,11 @@
 #include <Keyboard.h>
 
 //customize
-const float threshold = 4;
-const int min_time = 20000;
+const int threshold = 4;
+const int largerThreshold = 10;
+const int thresholdZero = 500;
+const int min_time = 30000;
+const int stop_option = 1; //1 - first diff with 1 time point between, 2 - first diff with 4 time points between
 
 const int max_angle = 113;
 const int min_angle = 10;
@@ -26,16 +29,22 @@ float currentTime;
 float timeDiff;
 int initValue=1;
 int Started = 0;
+long long int overallSum = 0;
+int overallMeasurements = 0;
+int overallAvg = 0;
+long averages[11];
+int stopped = 0;
 
 int read_idx = 0;
 int MAX_IDX = 10;
-int cur_sum = 0;
+long int cur_sum = 0;
 int cur_tf[11];
 long cur_avg = 0;
 int prev_tf[11];
-int prev_sum = 0;
+long int prev_sum = 0;
 long prev_avg = 0;
 long first_diff = 0;
+long larger_diff = 0;
 
 /* Connect SCL to analog 5
 Connect SDA to analog 4
@@ -52,6 +61,7 @@ const int LED_PIN    = 13; // the pin number of the LED pin (always 13)
 const int SENSOR_LED = 7; // the pin number of colour sensor's on-board led
 const int SERVO_PIN = 9; // the pin number of the servo motor's pwm control
 const int car_motor = 11; // the pin number of the car motor's pwm control
+
 const int stirrer_motor = 10; // the pin number of the stirrer motor's pwm control
 
 
@@ -76,23 +86,41 @@ uint16_t r, g, b, c, colorTemp, lux;
         //digitalWrite(stirrer_rev, LOW);
         analogWrite(stirrer_motor, 0);
     }
-    
 
+    
+    //get sum of 10 data points
     cur_tf[read_idx] = c;
     cur_sum = 0;
     for (int i = 0; i < (MAX_IDX + 1); i++){
       cur_sum += cur_tf[i];
     }
-    
+    //get average of 10 data points
     cur_avg = cur_sum / (MAX_IDX + 1);
+    averages[read_idx] = cur_avg;
 
+    //baseline average
+    if (timeDiff > 6000 & timeDiff < 10000) {
+      overallSum += cur_tf[read_idx];
+      overallMeasurements++;
+      overallAvg = overallSum/overallMeasurements;
+    }
+
+    //get sum of 10 data points (-1 delta time point)
     prev_sum = 0;
     for (int i = 0; i < (MAX_IDX + 1); i++){
       prev_sum += prev_tf[i];
     }
-
+    //get average of 10 data points (-1 delta time point)
     prev_avg = prev_sum / (MAX_IDX + 1);
-    
+
+    //get sum of 10 data points (-4 delta time points)
+    if (read_idx - 4 < 0) {
+      larger_diff = averages[read_idx] - averages[read_idx + 11 - 4];
+    } else {
+      larger_diff = averages[read_idx] - averages[read_idx - 4];
+    }
+
+    //first difference
     first_diff = cur_avg - prev_avg;
     
     Serial.print("R:"); Serial.print(r, DEC); Serial.print(" ");
@@ -109,7 +137,12 @@ uint16_t r, g, b, c, colorTemp, lux;
         initValue=0;
         }
     }else{
-      if(first_diff > threshold){ //if above threshold, end
+      if (stop_option == 1){
+          stopped = first_diff > threshold;
+      }elif (stop_option == 2){
+          stopped = larger_diff > largerThreshold;
+      }
+      if(stopped | ((cur_avg - overallAvg) > thresholdZero)){ //if above threshold, end
         // Car motor stop
         analogWrite(car_motor,0);
         analogWrite(stirrer_motor,0);
