@@ -8,11 +8,11 @@
 //customize
 const int threshold = 4;
 const int largerThreshold = 10;
-const int thresholdZero = 500;
+const int thresholdZero = 75;
 const int min_time = 30000;
-const int stop_option = 1; //1 - first diff with 1 time point between, 2 - first diff with 4 time points between
+const int stop_option = 2; //1 - first diff with 1 time point between, 2 - first diff with 4 time points between
 
-const int max_angle = 113;
+const int max_angle = 115;
 const int min_angle = 10;
 const int safe_angle = 25;
 const int servo_delay = 40;
@@ -45,6 +45,8 @@ long int prev_sum = 0;
 long prev_avg = 0;
 long first_diff = 0;
 long larger_diff = 0;
+float stop_time = 0;
+int ended = 0;
 
 /* Connect SCL to analog 5
 Connect SDA to analog 4
@@ -72,7 +74,7 @@ void(* resetFunc) (void) = 0; //declare reset function @ address 0
 
 //colour sensing loop
 void main_loop() {
-uint16_t r, g, b, c, colorTemp, lux;
+    uint16_t r, g, b, c, colorTemp, lux;
     tcs.getRawData(&r, &g, &b, &c);
     currentTime = millis();
     timeDiff = currentTime - startTime;
@@ -123,13 +125,17 @@ uint16_t r, g, b, c, colorTemp, lux;
     //first difference
     first_diff = cur_avg - prev_avg;
     
-    Serial.print("R:"); Serial.print(r, DEC); Serial.print(" ");
-    Serial.print("G:"); Serial.print(g, DEC); Serial.print(" ");
-    Serial.print("B:"); Serial.print(b, DEC); Serial.print(" ");
-    Serial.print("C:"); Serial.print(c, DEC); Serial.print(" ");
-    Serial.print("cur_avg"); Serial.print(cur_avg, DEC); Serial.print(" ");
-    Serial.print("prev_avg"); Serial.print(prev_avg, DEC); Serial.print(" ");
-    Serial.print("read_idx"); Serial.print(read_idx, DEC); Serial.print(" ");
+    Serial.print("R: "); Serial.print(r, DEC); Serial.print(" ");
+    Serial.print("G: "); Serial.print(g, DEC); Serial.print(" ");
+    Serial.print("B: "); Serial.print(b, DEC); Serial.print(" ");
+    Serial.print("C: "); Serial.print(c, DEC); Serial.print(" ");
+    Serial.print("cur_avg "); Serial.print(cur_avg, DEC); Serial.print(" ");
+    Serial.print("prev_avg "); Serial.print(prev_avg, DEC); Serial.print(" ");
+    Serial.print("read_idx "); Serial.print(read_idx, DEC); Serial.print(" ");
+    Serial.print("Time: "); Serial.print(timeDiff/1000, DEC); Serial.print(" ");
+    Serial.print("First Diff: "); Serial.print(first_diff, DEC); Serial.print(" ");
+    Serial.print("Larger Diff: "); Serial.print(larger_diff, DEC); Serial.print(" ");
+    Serial.print("Overallavg: "); Serial.print(overallAvg, DEC); Serial.print(" ");
     Serial.println(" ");
     
     if(initValue){
@@ -139,10 +145,11 @@ uint16_t r, g, b, c, colorTemp, lux;
     }else{
       if (stop_option == 1){
           stopped = first_diff > threshold;
-      }elif (stop_option == 2){
+      }else if (stop_option == 2){
           stopped = larger_diff > largerThreshold;
       }
       if(stopped | ((cur_avg - overallAvg) > thresholdZero)){ //if above threshold, end
+        stop_time = timeDiff;
         // Car motor stop
         analogWrite(car_motor,0);
         analogWrite(stirrer_motor,0);
@@ -152,6 +159,7 @@ uint16_t r, g, b, c, colorTemp, lux;
         //digitalWrite(stirrer_fwd, LOW);
         //digitalWrite(stirrer_rev, LOW);
         Started = 0;
+        ended = 1;
         myservo.write(max_angle);
         resetFunc();
         while(true);
@@ -217,7 +225,7 @@ void setup() {
 
 
 void loop() {
-
+  
   button.loop(); // MUST call the button.loop() function before checking pressed
 
   //loop till button is pressed, then wait until button released to start
